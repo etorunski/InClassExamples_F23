@@ -2,5 +2,6 @@
     <string name="app_name">InClassExamples_F23</string>
     <string name="hello">Hello world</string>
     <string name="button_text">I\'m a button</string>
+    <string name="editMessage">I\'m an edit text</string>
 
 </resources>
