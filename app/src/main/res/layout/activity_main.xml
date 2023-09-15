@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
 
     <!-- 1 - values-es-rCH -->
@@ -24,9 +24,9 @@
 
         android:textSize="40dp"
         android:id="@+id/myButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_text"
+        android:text="Click me"
         />
     <EditText
 
