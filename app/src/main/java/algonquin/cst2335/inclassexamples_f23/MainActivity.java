@@ -16,4 +16,14 @@ public class MainActivity extends AppCompatActivity {
         //this is the only function call, loads stuff onto screen
         setContentView(R.layout.activity_main);
     }
+
+
+
+
+
+
+
+
+
+
 }
