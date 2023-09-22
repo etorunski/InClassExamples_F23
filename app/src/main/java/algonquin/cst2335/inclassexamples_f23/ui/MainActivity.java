@@ -34,26 +34,11 @@ public class MainActivity extends AppCompatActivity {
         //this is the only function call, loads stuff onto screen
         setContentView( binding.getRoot() );
 
+binding.myImageButton.setOnClickListener( clik -> {
+    binding.myTextView.setText("You clicked the image");
+
+});
 
 
-        CheckBox cb =binding.myCheckbox; //same as getElementById() in HTML
-        Switch sw =  binding.mySwitch; //must not be null
-        RadioButton et =binding.myRadioButton;
-                                        //what was clicked,  onOrOff
-        cb.setOnCheckedChangeListener( (buttonView, isChecked) ->{
-            viewModel.onOrOff.postValue( isChecked );
-        });
-        sw.setOnCheckedChangeListener( (btn, onOrOff) -> {
-            viewModel.onOrOff.postValue( onOrOff );
-        });
-        et.setOnCheckedChangeListener( (btn, onOrOff) -> {
-            viewModel.onOrOff.postValue( onOrOff );
-        });
-
-        viewModel.onOrOff.observe(this, newBool -> {
-            cb.setChecked(newBool);
-            sw.setChecked(newBool);
-            et.setChecked(newBool);
-        });
     }
 }

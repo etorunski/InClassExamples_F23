@@ -14,26 +14,23 @@
     <!-- 3 - values -->
 
 
-    <CheckBox android:id="@+id/myCheckbox"
+    <TextView android:id="@+id/myTextView"
         android:textSize="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="I'm a checkbox"
+        android:text="Hello world"
        />
-    <Switch
 
-        android:textSize="40dp"
-        android:id="@+id/mySwitch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="I'm a switch"
-        />
-    <RadioButton
-
-        android:textSize="40dp"
-        android:id="@+id/myRadioButton"
+    <ImageView
+        android:src="@drawable/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RadioButton"
+        />
+
+    <ImageButton
+        android:id="@+id/myImageButton"
+        android:src="@drawable/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         />
 </LinearLayout>
