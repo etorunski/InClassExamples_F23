@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
+    android:layout_marginTop="27dp"
+    android:layout_marginBottom="27dp"
+    android:layout_marginLeft="48dp"
+    android:layout_marginRight="48dp"
+
     tools:context=".ui.MainActivity">
 
     <Button
@@ -14,6 +20,11 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="220dp"
         android:text="Button"
+
+        android:nextFocusUp="@id/button"
+        android:nextFocusDown="@id/button"
+        android:nextFocusLeft="@id/button3"
+        android:nextFocusRight="@id/button2"
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
