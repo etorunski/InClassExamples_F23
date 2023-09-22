@@ -34,11 +34,6 @@ public class MainActivity extends AppCompatActivity {
         //this is the only function call, loads stuff onto screen
         setContentView( binding.getRoot() );
 
-binding.myImageButton.setOnClickListener( clik -> {
-    binding.myTextView.setText("You clicked the image");
-
-});
-
 
     }
 }
