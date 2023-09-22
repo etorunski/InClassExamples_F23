@@ -8,4 +8,5 @@ public class MainViewModel extends ViewModel {
 
     //observe this object:
     public MutableLiveData<String> userString = new MutableLiveData("");
+    public MutableLiveData<Boolean> onOrOff = new MutableLiveData<>(false);
 }

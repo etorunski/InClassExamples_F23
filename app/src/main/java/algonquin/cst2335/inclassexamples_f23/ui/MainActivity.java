@@ -7,7 +7,11 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import algonquin.cst2335.inclassexamples_f23.R;
@@ -32,25 +36,24 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        TextView tv =binding.myTextView; //same as getElementById() in HTML
-        Button b =  binding.myButton; //must not be null
-        EditText et =binding.myEditText;
-
-        //this will be called when the value changes:
-        viewModel.userString.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                tv.setText(s);
-            }
+        CheckBox cb =binding.myCheckbox; //same as getElementById() in HTML
+        Switch sw =  binding.mySwitch; //must not be null
+        RadioButton et =binding.myRadioButton;
+                                        //what was clicked,  onOrOff
+        cb.setOnCheckedChangeListener( (buttonView, isChecked) ->{
+            viewModel.onOrOff.postValue( isChecked );
         });
-        et.setText( viewModel.userString.getValue() );
-        //OnClickListener     //anonymnous class
-        b.setOnClickListener(v -> {
-            //only run when you click the button
+        sw.setOnCheckedChangeListener( (btn, onOrOff) -> {
+            viewModel.onOrOff.postValue( onOrOff );
+        });
+        et.setOnCheckedChangeListener( (btn, onOrOff) -> {
+            viewModel.onOrOff.postValue( onOrOff );
+        });
 
-            String string = et.getText().toString(); //read what the user typed
-            viewModel.userString.postValue( string ); //set the value, and notify observers
-            b.setText("You clicked the button");
+        viewModel.onOrOff.observe(this, newBool -> {
+            cb.setChecked(newBool);
+            sw.setChecked(newBool);
+            et.setChecked(newBool);
         });
     }
 }
