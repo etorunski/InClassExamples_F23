@@ -6,9 +6,12 @@ android {
     namespace = "algonquin.cst2335.inclassexamples_f23"
     compileSdk = 33
 
+    buildFeatures{
+        viewBinding=true
+    }
     defaultConfig {
         applicationId = "algonquin.cst2335.inclassexamples_f23"
-        minSdk = 22
+        minSdk = 23
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
