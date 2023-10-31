@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 
+import algonquin.cst2335.inclassexamples_f23.ChatMessage;
+
 public class MessageViewModel extends ViewModel {
-    public    ArrayList<String> theMessages = new java.util.ArrayList<>();
+    public    ArrayList<ChatMessage> theMessages = new java.util.ArrayList<>();
 }
