@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+
+        android:textSize="30dp"
+        android:id="@+id/message_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="message"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/time_id"
+        android:textSize="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="time"
+        app:layout_constraintStart_toStartOf="@+id/message_id"
+        app:layout_constraintTop_toBottomOf="@+id/message_id" />
+
+    <TextView
+        android:id="@+id/send_id"
+        android:textSize="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="send or receive"
+        app:layout_constraintStart_toStartOf="@+id/time_id"
+        app:layout_constraintTop_toBottomOf="@+id/time_id" />
+
+    <TextView
+        android:id="@+id/database_id"
+        android:textSize="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="id"
+        app:layout_constraintStart_toStartOf="@+id/send_id"
+        app:layout_constraintTop_toBottomOf="@+id/send_id" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,8 @@ package algonquin.cst2335.inclassexamples_f23;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +42,14 @@ public class ChatRoom extends AppCompatActivity {
 
     //Declare the dao here:
     ChatMessageDAO mDao;
+    MessageViewModel chatModel;
+
+    //called when you click the back arrow
+    @Override
+    public void onBackPressed() {
+        chatModel.selectedMessage.postValue(null);
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +59,20 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //get the data from the ViewModel:
-       MessageViewModel chatModel = new ViewModelProvider(this).get(MessageViewModel.class);
+       chatModel = new ViewModelProvider(this).get(MessageViewModel.class);
         theMessages = chatModel.theMessages;
+        chatModel.selectedMessage.observe(this, selectedMessage -> {
+
+            if(selectedMessage != null) {
+                MessageDetailsFragment newMessage = new MessageDetailsFragment(selectedMessage);
+
+                FragmentManager fMgr = getSupportFragmentManager();
+                FragmentTransaction transaction = fMgr.beginTransaction();
+                transaction.addToBackStack("any string here");
+                transaction.add(R.id.fragmentLocation, newMessage); //first is the FrameLayout id
+                transaction.commit();//loads it
+            }
+        });
 
         //load messages from the database:
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "fileOnYourPhone").build();
@@ -151,14 +173,21 @@ public class ChatRoom extends AppCompatActivity {
             itemView.setOnClickListener( click -> {
                 int rowNum = getAbsoluteAdapterPosition();//which row this is
                 ChatMessage toDelete = theMessages.get(rowNum);
+
+                if(chatModel.selectedMessage.getValue() == null)
+                //starts the loading
+                    chatModel.selectedMessage.postValue(toDelete);
+
+
+                /* comment out
                 AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
 
-                builder.setNegativeButton("No" , (btn, obj)->{ /* if no is clicked */  }  );
+                builder.setNegativeButton("No" , (btn, obj)->{ /* if no is clicked * /  }  );
                 builder.setMessage("Do you want to delete this message?");
                 builder.setTitle("Delete");
 
                 builder.setPositiveButton("Yes", (p1, p2)-> {
-                    /*is yes is clicked*/
+                    /*is yes is clicked* /
                     Executor thread1 = Executors.newSingleThreadExecutor();
                     thread1.execute(( ) -> {
                         //delete from database
@@ -185,6 +214,8 @@ public class ChatRoom extends AppCompatActivity {
                 });
 
                 builder.create().show(); //this has to be last
+
+            */
             });
 
             message = itemView.findViewById(R.id.message);
