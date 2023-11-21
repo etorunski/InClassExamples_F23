@@ -15,9 +15,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import algonquin.cst2335.inclassexamples_f23.databinding.ActivityMainBinding;
 
@@ -27,51 +43,84 @@ import algonquin.cst2335.inclassexamples_f23.databinding.ActivityMainBinding;
  * @version  1.0
  */
 public class MainActivity extends AppCompatActivity {
+    RequestQueue queue = null;
 
-    /** @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-
+        //This part goes at the top of the onCreate function:
+        queue = Volley.newRequestQueue(this);
        setContentView(binding.getRoot());
 
-       binding.loginButton.setOnClickListener(click -> {
-           String userInput = binding.passwordText.getText().toString();
-           if(containsUpperAndLowerCase(userInput)){
-               binding.responseText.setText("Your password has upper and lower case");
-           }
-           else binding.responseText.setText("Your password is not complex enough");
-       });
+       binding.loginButton.setOnClickListener( click -> {
 
+           //get the forecast       replace " ", / with +
+           String cityName = null;
+           try {
+
+               cityName = URLEncoder.encode( binding.passwordText.getText().toString() ,"UTF-8");
+
+
+                String url = "https://api.openweathermap.org/data/2.5/weather?q="+ cityName   +"&appid=7e943c97096a9784391a981c4d878b22&units=metric";
+
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                  ( response) ->{
+                    try {
+                        JSONObject mainObj = response.getJSONObject("main");
+                        double temperature = mainObj.getDouble("temp");
+
+                        binding.textView.setText("The temperature is:" + temperature);
+                        binding.textView.setVisibility(View.VISIBLE);
+
+                        String iconName = "";
+                      JSONArray weatherArray = response.getJSONArray("weather");
+
+                      for(int i = 0; i < weatherArray.length(); i++)
+                      {
+                        JSONObject thisObj = weatherArray.getJSONObject(i);
+                        iconName  = thisObj.getString("icon");
+                      }
+                      //now that we have the iconName:
+                      //2nd query for the image
+
+                        File imageFIle = new File(iconName + ".png");
+
+
+                        String imageUrl = "http://openweathermap.org/img/w/" + iconName + ".png";
+                        ImageRequest imgReq = new ImageRequest(imageUrl, new Response.Listener<Bitmap>() {
+                            @Override
+                            public void onResponse(Bitmap bitmap) {
+                                // Do something with loaded bitmap...
+                                binding.weatherImage.setImageBitmap(bitmap);
+                                Log.d("Image recieved", "Got the image");
+                            }
+                        }, 1024, 1024, ImageView.ScaleType.CENTER, null,
+                                (error ) -> {
+                            Log.d("Error", "NO image downloaded");
+                        });
+
+                        queue.add(imgReq); //fetches from the server
+                    }catch(JSONException e){
+
+
+                    }
+
+                    Log.d("Response", "Received " + response.toString());
+                    /*this gets called if the server responded*/ },
+                  (error) -> {  /*this gets called if there was an error or no response*/  }
+                );
+
+                queue.add(request); //fetches from the server
+
+           } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+       });
 
 
      }
 
 
-    /** This function checks str and returns true if str
-     * has an upper and lower case letter in it
-     * @param str - an unused parameter
-     *
-     * @return Returns true if str has upper and lower case, otherwise false
-     */
-    boolean containsUpperAndLowerCase( String str){
-        boolean foundUpper = false;
-        boolean foundLower = false;
-
-        for(int i = 0; i < str.length(); i++)
-        {
-            //get each character in the string:
-            char c = str.charAt(i);
-            if(Character.isLowerCase(c))
-                foundLower = true;
-            else if(Character.isUpperCase(c))
-                foundUpper = true;
-        }
-        //after looked at every character
-        return foundLower && foundUpper;
-    }
 }
